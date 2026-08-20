@@ -1,2 +1,0 @@
-# PES1UG24AM206_SE_LAB
-For SE course
