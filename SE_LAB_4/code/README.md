@@ -76,3 +76,29 @@ Submission is only the following three things:
 - [ ] A 10-second video of gameplay **before** your changes, showing the bug/broken behavior
 - [ ] A 10-second video of gameplay **after** your changes, showing the bug fixed and the new features working
 - [ ] The Chat/LLM used page link, with the complete chat history
+
+
+## Changes Made
+
+### Task 1 – Bug fix
+- **Bug:** `Board.display()` joined horizontal segments with `"."` only *between* them, so each row was missing its first and last dot. Horizontal lines were shifted one character left and did not line up with the vertical walls, making the board unreadable after boxes were completed.
+- **Fix:** every horizontal row now starts with a dot and adds a dot after each segment, so dots, lines and walls align.
+
+### Task 2 – Feature: board size selection + box ownership
+- Players choose the board size at startup (1–5 rows/cols, Enter for 2x2). Parsing and limits live in `rules.py` (`parse_board_size`).
+- `Board.completed` is now a dict `{(row, col): player}`, so each box records who claimed it. The board shows `1` or `2` inside each box instead of `X`.
+- `game.py` passes the current player to `Board.add_line()`. Row/column numbers are printed around the board for easier input.
+
+### Task 3 – Validation and robustness
+- New `rules.parse_move()` validates input and returns a clear error for: wrong format, bad direction, non-numeric/negative values, out-of-range coordinates, repeated lines, and moves after the board is complete.
+- `Board.add_line()` raises `ValueError` on illegal moves as a second safety layer, so the board can never be corrupted.
+- Added `help` and `quit` commands, lowercase input support, and clean exit on Ctrl+C / EOF.
+
+### Task 4 – Tests
+- `test_game.py` (standard-library `unittest`, 13 tests). Run with `python -m unittest -v`.
+
+### Design decisions
+- Kept the original three-module structure: validation in `rules.py`, state in `board.py`, flow and turns in `game.py`. `main.py` is unchanged.
+- Score/turn changes were moved into `DotsAndBoxes.play_move()` so they can be tested without keyboard input.
+- No third-party dependencies were added.
+
