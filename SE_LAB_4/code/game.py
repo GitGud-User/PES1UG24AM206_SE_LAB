@@ -1,5 +1,12 @@
 from board import Board
-from rules import valid_move, completed_boxes, parse_board_size, MIN_SIZE, MAX_SIZE
+from rules import completed_boxes, parse_board_size, parse_move, MIN_SIZE, MAX_SIZE
+
+HELP_TEXT = """Commands:
+  H row col   draw a horizontal line (e.g. H 0 1)
+  V row col   draw a vertical line   (e.g. V 1 0)
+  help        show this help
+  quit        end the game"""
+
 
 class DotsAndBoxes:
     def __init__(self, rows=2, cols=2):
@@ -16,41 +23,50 @@ class DotsAndBoxes:
                 return
             print(f"Please enter two numbers between {MIN_SIZE} and {MAX_SIZE}, e.g. 3 3.")
 
+    def play_move(self, orientation, row, col):
+        """Apply a validated move and update score/turn. Returns boxes completed."""
+        before = set(self.board.completed)
+        self.board.add_line(orientation, row, col, self.current)
+        newly_completed = completed_boxes(self.board, before)
+
+        if newly_completed:
+            self.scores[self.current] += newly_completed
+        else:
+            self.current = 1 - self.current
+        return newly_completed
+
     def run(self):
         print("Dots and Boxes")
         print("Enter moves as H row col or V row col.")
         print("Rows and columns start at 0.")
-        print("Example: H 0 1")
-        self.choose_board_size()
+        print("Example: H 0 1   (type 'help' for commands, 'quit' to exit)")
+        try:
+            self.choose_board_size()
+            self.game_loop()
+        except (EOFError, KeyboardInterrupt):
+            print("\nGame ended by user.")
 
+    def game_loop(self):
         while not self.board.is_complete():
             self.board.display(self.scores, self.current)
-            raw = input(f"Player {self.current + 1}, move: ").strip().upper()
-            parts = raw.split()
+            raw = input(f"Player {self.current + 1}, move: ").strip()
 
-            if len(parts) != 3:
-                print("Invalid format.")
+            if raw.lower() in {"q", "quit", "exit"}:
+                print("Game ended by user.")
+                return
+            if raw.lower() in {"h", "help", "?"}:
+                print(HELP_TEXT)
                 continue
 
-            orientation, row, col = parts
-            if not row.isdigit() or not col.isdigit():
-                print("Row and column must be numbers.")
+            move, error = parse_move(self.board, raw)
+            if error:
+                print(error)
                 continue
 
-            row, col = int(row), int(col)
-            if not valid_move(self.board, orientation, row, col):
-                print("Invalid or already-used move.")
-                continue
-
-            before = set(self.board.completed)
-            self.board.add_line(orientation, row, col, self.current)
-            newly_completed = completed_boxes(self.board, before)
-
+            player = self.current
+            newly_completed = self.play_move(*move)
             if newly_completed:
-                self.scores[self.current] += newly_completed
-                print(f"Player {self.current + 1} completed {newly_completed} box(es) and plays again.")
-            else:
-                self.current = 1 - self.current
+                print(f"Player {player + 1} completed {newly_completed} box(es) and plays again.")
 
         self.board.display(self.scores, self.current)
         print("Game over!")

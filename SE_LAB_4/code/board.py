@@ -8,12 +8,22 @@ class Board:
         self.completed = {}
 
     def add_line(self, orientation, row, col, player=0):
+        # Defensive check: never let a bad call corrupt the board
+        if orientation == "H":
+            if not (0 <= row <= self.rows and 0 <= col < self.cols) or self.horizontal[row][col]:
+                raise ValueError(f"Illegal move: {orientation} {row} {col}")
+        elif orientation == "V":
+            if not (0 <= row < self.rows and 0 <= col <= self.cols) or self.vertical[row][col]:
+                raise ValueError(f"Illegal move: {orientation} {row} {col}")
+        else:
+            raise ValueError(f"Illegal orientation: {orientation}")
+
         if orientation == "H":
             self.horizontal[row][col] = True
         else:
             self.vertical[row][col] = True
         self._update_completed(player)
-
+        
     def _update_completed(self, player):
         for r in range(self.rows):
             for c in range(self.cols):
