@@ -6,7 +6,7 @@ conn.execute("CREATE TABLE riders (id INTEGER PRIMARY KEY, "
              "student TEXT, route TEXT, stop TEXT, fee INTEGER)")
 
 
-def enroll_rider(student,route,stop,fee):
+def enroll_rider(student, route, stop, fee):
     """Add a student to a bus route at the given stop with the given fee."""
     conn.execute("INSERT INTO riders (student, route, stop, fee) "
                  "VALUES (?, ?, ?, ?)", (student, route, stop, fee))
@@ -15,7 +15,9 @@ def enroll_rider(student,route,stop,fee):
 
 def route_roster(route):
     """Return the names of all students enrolled on a route."""
-    return [r[0] for r in conn.execute("SELECT student FROM riders WHERE route = ?", (route,))]
+    rows = conn.execute("SELECT student FROM riders WHERE route = ?",
+                        (route,))
+    return [r[0] for r in rows]
 
 
 def export_roster(path, route):
@@ -23,6 +25,7 @@ def export_roster(path, route):
     with open(path, "w", encoding="utf-8") as out:
         for name in route_roster(route):
             out.write(name + "\n")
+
 
 def dispatch_alert(route):
     """Announce that the bus for a route is being dispatched."""
@@ -32,7 +35,8 @@ def dispatch_alert(route):
 def fee_collected(route):
     """Return the total fee collected for a route (0 if none or on error)."""
     try:
-        total = conn.execute("SELECT SUM(fee) FROM riders WHERE route = ?", (route,)).fetchone()[0]
+        total = conn.execute("SELECT SUM(fee) FROM riders WHERE route = ?",
+                             (route,)).fetchone()[0]
     except sqlite3.Error:
         return 0
     return total or 0
