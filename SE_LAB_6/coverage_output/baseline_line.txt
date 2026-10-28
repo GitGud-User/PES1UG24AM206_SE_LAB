@@ -1,0 +1,17 @@
+PS C:\Users\dell\AppData\Local\Temp\l5\PES1UG24AM206_SE_LAB\SE_LAB_6> coverage run -m pytest test_pizza_order.py
+============================= test session starts =============================
+platform win32 -- Python 3.12.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: C:\Users\dell\AppData\Local\Temp\l5\PES1UG24AM206_SE_LAB\SE_LAB_6
+plugins: platformdirs-4.13.6
+collected 2 items
+
+test_pizza_order.py ..                                                   [100%]
+
+============================== 2 passed in 0.04s ==============================
+PS C:\Users\dell\AppData\Local\Temp\l5\PES1UG24AM206_SE_LAB\SE_LAB_6> coverage report -m
+Name                  Stmts   Miss  Cover   Missing
+---------------------------------------------------
+pizza_order.py           34     20    41%   6, 8, 11, 15-17, 22-32, 37, 40-42
+test_pizza_order.py       6      0   100%
+---------------------------------------------------
+TOTAL                    40     20    50%

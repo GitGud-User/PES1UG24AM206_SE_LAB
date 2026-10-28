@@ -1,0 +1,30 @@
+PS C:\Users\dell\AppData\Local\Temp\l5\PES1UG24AM206_SE_LAB\SE_LAB_6> coverage run -m pytest CodeCoverageTest_PES1UG24AM206_pizza_order.py -v
+============================= test session starts =============================
+platform win32 -- Python 3.12.6, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\dell\AppData\Local\Temp\l5\venv\Scripts\python.exe
+rootdir: C:\Users\dell\AppData\Local\Temp\l5\PES1UG24AM206_SE_LAB\SE_LAB_6
+plugins: platformdirs-4.13.6
+collecting ... collected 14 items
+
+CodeCoverageTest_PES1UG24AM206_pizza_order.py::test_plain_medium_pizza PASSED [  7%]
+CodeCoverageTest_PES1UG24AM206_pizza_order.py::test_unknown_size_raises PASSED [ 14%]
+CodeCoverageTest_PES1UG24AM206_pizza_order.py::test_negative_toppings_raises PASSED [ 21%]
+CodeCoverageTest_PES1UG24AM206_pizza_order.py::test_more_than_three_toppings PASSED [ 28%]
+CodeCoverageTest_PES1UG24AM206_pizza_order.py::test_cheese_burst_medium PASSED [ 35%]
+CodeCoverageTest_PES1UG24AM206_pizza_order.py::test_cheese_burst_small_raises PASSED [ 42%]
+CodeCoverageTest_PES1UG24AM206_pizza_order.py::test_small_order_gets_no_discount PASSED [ 50%]
+CodeCoverageTest_PES1UG24AM206_pizza_order.py::test_tuesday_half_price_student PASSED [ 57%]
+CodeCoverageTest_PES1UG24AM206_pizza_order.py::test_weekend_no_discount_student PASSED [ 64%]
+CodeCoverageTest_PES1UG24AM206_pizza_order.py::test_weekday_ten_percent_student PASSED [ 71%]
+CodeCoverageTest_PES1UG24AM206_pizza_order.py::test_on_time_delivery PASSED [ 78%]
+CodeCoverageTest_PES1UG24AM206_pizza_order.py::test_too_far_not_deliverable PASSED [ 85%]
+CodeCoverageTest_PES1UG24AM206_pizza_order.py::test_late_delivery PASSED [ 92%]
+CodeCoverageTest_PES1UG24AM206_pizza_order.py::test_very_late_free_pizza PASSED [100%]
+
+============================= 14 passed in 0.10s ==============================
+PS C:\Users\dell\AppData\Local\Temp\l5\PES1UG24AM206_SE_LAB\SE_LAB_6> coverage report -m
+Name                                            Stmts   Miss  Cover   Missing
+-----------------------------------------------------------------------------
+CodeCoverageTest_PES1UG24AM206_pizza_order.py      33      0   100%
+pizza_order.py                                     34      0   100%
+-----------------------------------------------------------------------------
+TOTAL                                              67      0   100%

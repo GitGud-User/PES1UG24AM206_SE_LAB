@@ -1,0 +1,17 @@
+PS C:\Users\dell\AppData\Local\Temp\l5\PES1UG24AM206_SE_LAB\SE_LAB_6> coverage run --branch -m pytest CodeCoverageTest_PES1UG24AM206_pizza_order.py
+============================= test session starts =============================
+platform win32 -- Python 3.12.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: C:\Users\dell\AppData\Local\Temp\l5\PES1UG24AM206_SE_LAB\SE_LAB_6
+plugins: platformdirs-4.13.6
+collected 14 items
+
+CodeCoverageTest_PES1UG24AM206_pizza_order.py ..............             [100%]
+
+============================= 14 passed in 0.10s ==============================
+PS C:\Users\dell\AppData\Local\Temp\l5\PES1UG24AM206_SE_LAB\SE_LAB_6> coverage report -m
+Name                                            Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------------------------------------
+CodeCoverageTest_PES1UG24AM206_pizza_order.py      33      0      0      0   100%
+pizza_order.py                                     34      0     24      1    98%   30->32
+-------------------------------------------------------------------------------------------
+TOTAL                                              67      0     24      1    99%
