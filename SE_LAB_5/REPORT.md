@@ -1,4 +1,4 @@
-﻿# Lab 5: Static Code Analysis â€“ School Bus Transport Register
+﻿# Lab 5: Static Code Analysis - School Bus Transport Register
 
 **SRN:** PES1UG24AM206
 **Source repo:** https://github.com/SETAPESU26/L5_24_school_transport
@@ -21,15 +21,15 @@
 |------|--------|-------|
 | Pylint | **4.00/10** (18 messages) | **10.00/10** (0 messages) |
 | Bandit | 4 issues: 1 High, 1 Medium, 2 Low | **No issues identified** |
-| Flake8 | 9 violations (E501 Ã—4, E231 Ã—3, E302, E722) | **0 violations** (empty report) |
+| Flake8 | 9 violations (E501 x4, E231 x3, E302, E722) | **0 violations** (empty report) |
 
 ## Commits
 
 One commit per tool, in the order of priority (security first):
 
-1. **Fix Bandit issues** â€“ parameterised SQL (B608), removed `subprocess.run(shell=True)` and the `subprocess` import (B602, B404), replaced `assert` with an explicit check (B101).
-2. **Fix Pylint issues** â€“ docstrings (C0114/C0116), snake_case names (C0103), removed unused `driver` argument (W0613), `with open(..., encoding="utf-8")` (R1732/W1514), `except sqlite3.Error` instead of bare `except` (W0702), wrapped lines over 100 chars (C0301), plus `__main__` guard and `None` â†’ `0` for empty routes.
-3. **Fix Flake8 issues** â€“ whitespace after commas (E231), two blank lines between functions (E302), lines wrapped to 79 characters (E501).
+1. **Fix Bandit issues** - parameterised SQL (B608), removed `subprocess.run(shell=True)` and the `subprocess` import (B602, B404), replaced `assert` with an explicit check (B101).
+2. **Fix Pylint issues** - docstrings (C0114/C0116), snake_case names (C0103), removed unused `driver` argument (W0613), `with open(..., encoding="utf-8")` (R1732/W1514), `except sqlite3.Error` instead of bare `except` (W0702), wrapped lines over 100 chars (C0301), plus `__main__` guard and `None` -> `0` for empty routes.
+3. **Fix Flake8 issues** - whitespace after commas (E231), two blank lines between functions (E302), lines wrapped to 79 characters (E501).
 
 A baseline commit before these adds the original file and the "before" reports.
 
