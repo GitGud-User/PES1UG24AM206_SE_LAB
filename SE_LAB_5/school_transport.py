@@ -1,44 +1,54 @@
+"""School bus transport register: enrol riders, list rosters and total fees."""
 import sqlite3
 
 conn = sqlite3.connect(":memory:")
-conn.execute("CREATE TABLE riders (id INTEGER PRIMARY KEY, student TEXT, route TEXT, stop TEXT, fee INTEGER)")
+conn.execute("CREATE TABLE riders (id INTEGER PRIMARY KEY, "
+             "student TEXT, route TEXT, stop TEXT, fee INTEGER)")
 
 
-def enrollRider(student,route,stop,fee):
-    conn.execute("INSERT INTO riders (student, route, stop, fee) VALUES (?, ?, ?, ?)", (student, route, stop, fee))
+def enroll_rider(student,route,stop,fee):
+    """Add a student to a bus route at the given stop with the given fee."""
+    conn.execute("INSERT INTO riders (student, route, stop, fee) "
+                 "VALUES (?, ?, ?, ?)", (student, route, stop, fee))
     conn.commit()
 
 
-def routeRoster(route, driver):
+def route_roster(route):
+    """Return the names of all students enrolled on a route."""
     return [r[0] for r in conn.execute("SELECT student FROM riders WHERE route = ?", (route,))]
 
 
-def exportRoster(path, route):
-    out = open(path, "w")
-    for name in routeRoster(route, None):
-        out.write(name + "\n")
-    out.close()
+def export_roster(path, route):
+    """Write the roster for a route to a text file, one name per line."""
+    with open(path, "w", encoding="utf-8") as out:
+        for name in route_roster(route):
+            out.write(name + "\n")
 
-def dispatchAlert(route):
+def dispatch_alert(route):
+    """Announce that the bus for a route is being dispatched."""
     print("dispatching bus " + route)
 
 
-def feeCollected(route):
+def fee_collected(route):
+    """Return the total fee collected for a route (0 if none or on error)."""
     try:
-        return conn.execute("SELECT SUM(fee) FROM riders WHERE route = ?", (route,)).fetchone()[0]
-    except:
+        total = conn.execute("SELECT SUM(fee) FROM riders WHERE route = ?", (route,)).fetchone()[0]
+    except sqlite3.Error:
         return 0
+    return total or 0
 
 
 def main():
-    enrollRider("Tara", "R1", "Lake Road", 1800)
-    enrollRider("Kabir", "R1", "Mill Street", 1800)
-    enrollRider("Zoya", "R2", "Fort Gate", 2100)
-    if feeCollected("R1") != 3600:
+    """Run a short demonstration of the register."""
+    enroll_rider("Tara", "R1", "Lake Road", 1800)
+    enroll_rider("Kabir", "R1", "Mill Street", 1800)
+    enroll_rider("Zoya", "R2", "Fort Gate", 2100)
+    if fee_collected("R1") != 3600:
         raise ValueError("Unexpected fee total for route R1")
-    exportRoster("route_r1.txt", "R1")
-    dispatchAlert("R1")
-    print(routeRoster("R2", "Mr. Das"))
+    export_roster("route_r1.txt", "R1")
+    dispatch_alert("R1")
+    print(route_roster("R2"))
 
 
-main()
+if __name__ == "__main__":
+    main()
